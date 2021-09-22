@@ -1,0 +1,207 @@
+<!-- https://codepen.io/ckato/pen/JQaPzO -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<div class="nav">
+    <input type="checkbox" id="nav-check">
+    <div class="nav-header">
+      <div class="nav-title">
+        Employee Car registration
+      </div>
+    </div>
+    <div class="nav-btn">
+      <label for="nav-check">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </div>
+    
+    <div class="nav-links">
+      <a href="#" target="_blank">Home</a>
+      <a href="#" target="_blank">Our Mission</a>
+      <a href="#" target="_blank">Architecture</a>
+      <a href="#" target="_blank">Contact Us</a>
+      <a href="#" target="_blank">About Us</a>
+      <a href="#" target="_blank">Feedback</a>
+    </div>
+  </div>
+
+
+<body  >
+
+
+    <form action="/" method="post" enctype="multipart/form-data">
+
+  <div>
+    <div class="container">
+        <div class = "row">
+            <div class="col-xs-6">
+                <label for="vid"><h2>Canteen Registration form</h2></label>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" aria-describedby="nameHelp" aria-required="true"  >
+                    <small id="nameHelp" class="form-text text-muted">We'll never share your personal  with anyone else.</small>
+                  </div>
+            
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" name="email" id="exampleInputEmail1"class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Car Reg No.</label>
+                    <input type="text" class="form-control" id="car" name="car">
+                    <p>Note: we dont store your picture. We encode it for safe and accurate detection.</p>
+                  </div>
+             </div>
+            <div class="col-xs-6">
+                
+                <h2>Image-upload with preview</h2>
+                <div class="wrapper">
+                  <div class="box">
+                    <div class="js--image-preview"></div>
+                    <div class="upload-options">
+                      <label>
+                        
+                        <input type="file" name="image" class="image-upload" accept="image/*" aria-describedby="imageHelp"  required ="true">
+                        
+                      </label>
+                    </div>
+                  </div>
+
+            </div>
+    </div>
+
+    <div>
+      <label for="privacy">We store your information for our services and dont share. Please read our Data Privacy Policy <a href="http://privacy.com">Privacy Policy</a></label>
+      <input type="checkbox" name="privacy" id="privacy">
+      
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg "  id="btnSubmit"  >Submit</button>
+    </form>
+ 
+
+
+<script>
+
+var checkbox = document.querySelector("input[name=privacy]");
+var btn = document.getElementById("btnSubmit");
+btn.disabled = true;
+checkbox.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("Checkbox is checked..");
+    btn.disabled = false;
+  } else {
+    console.log("Checkbox is not checked..");
+    btn.disabled = true;
+  }
+});
+
+</script>
+
+<script>
+
+function initImageUpload(box) {
+  let uploadField = box.querySelector('.image-upload');
+
+  uploadField.addEventListener('change', getFile);
+
+  function getFile(e){
+    let file = e.currentTarget.files[0];
+    checkType(file);
+  }
+  
+  function previewImage(file){
+    let thumb = box.querySelector('.js--image-preview'),
+        reader = new FileReader();
+
+    reader.onload = function() {
+      thumb.style.backgroundImage = 'url(' + reader.result + ')';
+    }
+    reader.readAsDataURL(file);
+    thumb.className += ' js--no-default';
+  }
+
+  function checkType(file){
+    let imageType = /image.*/;
+    if (!file.type.match(imageType)) {
+      throw 'Woops!!!! what have you done';
+    } else if (!file){
+      throw 'Kein Bild gewählt';
+    } else {
+      previewImage(file);
+    }
+  }
+  
+}
+
+// initialize box-scope
+var boxes = document.querySelectorAll('.box');
+
+for (let i = 0; i < boxes.length; i++) {
+  let box = boxes[i];
+  initDropEffect(box);
+  initImageUpload(box);
+}
+
+
+
+/// drop-effect
+function initDropEffect(box){
+  let area, drop, areaWidth, areaHeight, maxDistance, dropWidth, dropHeight, x, y;
+  
+  // get clickable area for drop effect
+  area = box.querySelector('.js--image-preview');
+  area.addEventListener('click', fireRipple);
+  
+  function fireRipple(e){
+    area = e.currentTarget
+    // create drop
+    if(!drop){
+      drop = document.createElement('span');
+      drop.className = 'drop';
+      this.appendChild(drop);
+    }
+    // reset animate class
+    drop.className = 'drop';
+    
+    // calculate dimensions of area (longest side)
+    areaWidth = getComputedStyle(this, null).getPropertyValue("width");
+    areaHeight = getComputedStyle(this, null).getPropertyValue("height");
+    maxDistance = Math.max(parseInt(areaWidth, 10), parseInt(areaHeight, 10));
+
+    // set drop dimensions to fill area
+    drop.style.width = maxDistance + 'px';
+    drop.style.height = maxDistance + 'px';
+    
+    // calculate dimensions of drop
+    dropWidth = getComputedStyle(this, null).getPropertyValue("width");
+    dropHeight = getComputedStyle(this, null).getPropertyValue("height");
+    
+    // calculate relative coordinates of click
+    // logic: click coordinates relative to page - parent's position relative to page - half of self height/width to make it controllable from the center
+    x = e.pageX - this.offsetLeft - (parseInt(dropWidth, 10)/2);
+    y = e.pageY - this.offsetTop - (parseInt(dropHeight, 10)/2) - 30;
+    
+    // position drop and animate
+    drop.style.top = y + 'px';
+    drop.style.left = x + 'px';
+    drop.className += ' animate';
+    e.stopPropagation();
+    
+  }
+}
+
+</script>
+
+</body>
+</html>

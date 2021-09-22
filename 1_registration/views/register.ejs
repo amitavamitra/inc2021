@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Car Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<h1>Employee Car Registration</h1>
+
+<body>
+    <form action="/" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name" aria-describedby="nameHelp">
+            <small id="nameHelp" class="form-text text-muted">We'll never share your personal  with anyone else.</small>
+          </div>
+    
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" name="email" id="exampleInputEmail1"class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Car Reg No.</label>
+            <input type="text" class="form-control" id="car" name="car">
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+    
+    <div class="custom-file">
+        <input type="file" name="image" class="custom-file-input" id="customFile" aria-describedby="imageHelp">
+        <label class="custom-file-label" for="customFile">Upload Image</label>
+        <small id="imageHelp" class="form-text text-muted">We use AI to match you with the food you choose. Hence we need a picture. Please note we dont share your personal information with anyone.</small>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+    <h1>Uploaded Images</h1>
+    <div>
+        <% items.forEach(function(image) { %>
+        <div>
+            <div>
+                <img src="data:image/<%=image.img.contentType%>;base64,
+                     <%=image.img.data.toString('base64')%>">
+                <div>
+                    <h5><%= image.name %></h5>
+   
+                    <p><%= image.email %></p>
+
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</body>
+
+</html>
